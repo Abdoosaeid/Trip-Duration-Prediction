@@ -105,3 +105,24 @@ def add_log_transformed_feature(df, col="trip_duration", new_col=None):
 
     df[new_col] = np.log1p(df[col].values)
     return df
+
+
+
+def add_manhattan_distance(df):
+    lat_dist = (df['pickup_latitude'] - df['dropoff_latitude']).abs() * 111
+    lon_dist = (df['pickup_longitude'] - df['dropoff_longitude']).abs() * 111 * np.cos(np.radians(df['pickup_latitude']))
+    df['manhattan_distance'] = lat_dist + lon_dist
+    return df
+
+def add_direction(df):
+    delta_lon = np.radians(df['dropoff_longitude'] - df['pickup_longitude'])
+    pickup_lat = np.radians(df['pickup_latitude'])
+    drop_lat = np.radians(df['dropoff_latitude'])
+
+    y = np.sin(delta_lon) * np.cos(drop_lat)
+    x = (np.cos(pickup_lat) * np.sin(drop_lat) -
+         np.sin(pickup_lat) * np.cos(drop_lat) * np.cos(delta_lon))
+
+    bearing = np.degrees(np.arctan2(y, x))
+    df['direction'] = (bearing + 360) % 360
+    return df

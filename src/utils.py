@@ -7,6 +7,8 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler, R
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
+from scipy import stats
+
 
 def load_data(dataset_path):
 
@@ -88,3 +90,51 @@ def column_transformation(df,numeric_features=None,categorical_features=None, sc
     )
 
     return column_transformer
+
+
+def remove_outliers(df, feature_col=None, method='zscore', factor=1.5):
+    """
+     outlier removal function.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe.
+    feature_col : str or None, optional
+        Column to apply outlier removal on. If None, applies to all numeric columns.
+    method : str, default='zscore'
+        Method to detect outliers: 'zscore' or 'iqr'.
+    factor : float, default=1.5
+        Threshold factor (IQR multiplier or z-score cutoff).
+
+    Returns
+    -------
+    df_cleaned : pd.DataFrame
+        DataFrame with outliers removed.
+    """
+
+    df_clean = df.copy()
+
+
+    if feature_col:
+        cols = [feature_col]
+    else:
+        cols = df_clean.select_dtypes(include=[np.number]).columns.tolist()
+
+    for col in cols:
+        if method == 'zscore':
+            z_scores = np.abs(stats.zscore(df_clean[col]))
+            mask = z_scores < factor
+        elif method == 'iqr':
+            Q1 = df_clean[col].quantile(0.25)
+            Q3 = df_clean[col].quantile(0.75)
+            IQR = Q3 - Q1
+            lower = Q1 - factor * IQR
+            upper = Q3 + factor * IQR
+            mask = (df_clean[col] >= lower) & (df_clean[col] <= upper)
+        else:
+            raise ValueError("Method must be 'zscore' or 'iqr'")
+
+        df_clean = df_clean[mask]
+
+    return df_clean

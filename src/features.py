@@ -53,34 +53,43 @@ def add_time_features(df, datetime_col="pickup_datetime", drop_original=True, ex
     return df, new_features
 
 
-def euclidean_distance_km(df,lat1_col='pickup_latitude',lon1_col='pickup_longitude',lat2_col='dropoff_latitude',lon2_col='dropoff_longitude'):
+def euclidean_distance_km(df,lat1_col='pickup_latitude',lon1_col='pickup_longitude',lat2_col='dropoff_latitude',lon2_col='dropoff_longitude',new_col='euclidean_distance'):
     """
-    Compute approximate Euclidean distance (in km) between pickup and dropoff
-    points for all rows in a DataFrame (vectorized, no apply).
+      Compute approximate Euclidean distance (in km) between pickup and dropoff
+      points and add it as a new column in the DataFrame.
 
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input DataFrame containing pickup and dropoff coordinates.
-    lat1_col, lon1_col : str
-        Column names for pickup latitude and longitude.
-    lat2_col, lon2_col : str
-        Column names for dropoff latitude and longitude.
+      Parameters
+      ----------
+      df : pandas.DataFrame
+          Input DataFrame containing pickup and dropoff coordinates.
+      lat1_col, lon1_col : str
+          Column names for pickup latitude and longitude.
+      lat2_col, lon2_col : str
+          Column names for dropoff latitude and longitude.
+      new_col : str, default='euclidean_distance'
+          Name of the new column to store computed distances.
 
-    Returns
-    -------
-    pandas.Series
-        Distances in kilometers for each row.
-    """
-    km_per_degree_lat = 111  # km per degree latitude
+      Returns
+      -------
+      pandas.DataFrame
+          Same DataFrame with an additional column for Euclidean distance.
+      """
+    lat1 = df[lat1_col].to_numpy()
+    lon1 = df[lon1_col].to_numpy()
+    lat2 = df[lat2_col].to_numpy()
+    lon2 = df[lon2_col].to_numpy()
 
-    avg_lat_rad = np.radians((df[lat1_col] + df[lat2_col]) / 2)
-    km_per_degree_lon = 111 * np.cos(avg_lat_rad)
+    km_per_degree_lat = 111.0
+    avg_lat_rad = np.radians((lat1 + lat2) * 0.5)
+    km_per_degree_lon = km_per_degree_lat * np.cos(avg_lat_rad)
 
-    dx = (df[lon2_col] - df[lon1_col]) * km_per_degree_lon
-    dy = (df[lat2_col] - df[lat1_col]) * km_per_degree_lat
+    dx = (lon2 - lon1) * km_per_degree_lon
+    dy = (lat2 - lat1) * km_per_degree_lat
 
-    return np.sqrt(dx**2 + dy**2)
+    df[new_col] = np.sqrt(dx * dx + dy * dy)
+
+    return df
+
 
 def add_log_transformed_feature(df, col="trip_duration", new_col=None):
     """
@@ -104,7 +113,8 @@ def add_log_transformed_feature(df, col="trip_duration", new_col=None):
         new_col = f"{col}_log1p"
 
     df[new_col] = np.log1p(df[col].values)
-    return df
+    df = df.drop(columns=[col])
+    return df, new_col
 
 
 

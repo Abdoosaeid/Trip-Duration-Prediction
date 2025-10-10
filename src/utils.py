@@ -5,7 +5,8 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler, R
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from scipy import stats
-
+from features import *
+from config import *
 
 def load_data(dataset_path):
 
@@ -16,12 +17,6 @@ def load_data(dataset_path):
 
     return df
 
-def split_data(df,target_column):
-
-    X_train = df.drop(columns=target_column)
-    y_train = df[target_column]
-
-    return X_train, y_train
 
 def column_transformation(df,numeric_features=None,categorical_features=None, scaler="standard", remainder="drop"):
     """
@@ -86,10 +81,10 @@ def column_transformation(df,numeric_features=None,categorical_features=None, sc
         remainder=remainder
     )
 
-    return column_transformer
+    return column_transformer ,(train_features)
 
 
-def remove_outliers(df, feature_col=None, method='zscore', factor=1.5):
+def remove_outliers(df, feature_col=None, method='zscore', factor=6):
     """
      outlier removal function.
 
@@ -135,3 +130,20 @@ def remove_outliers(df, feature_col=None, method='zscore', factor=1.5):
         df_clean = df_clean[mask]
 
     return df_clean
+
+
+def prepare_data(data_path,target_column,remove_outlier=True):
+
+    df = load_data(data_path)
+    df = df.drop(["id"], axis=1)
+    df = remove_outliers(df)
+    df, _ = add_time_features(df)
+    df = euclidean_distance_km(df)
+    df, new_column = add_log_transformed_feature(df,target_column)
+    df = add_manhattan_distance(df)
+    df = add_direction(df)
+
+    print("Columns after log transform:", df.columns)
+
+    return df, new_column
+

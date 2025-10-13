@@ -1,16 +1,10 @@
 import pandas as pd
 from utils import prepare_data,column_transformation
-from sklearn.metrics import mean_squared_error ,r2_score
-import joblib
-import matplotlib.pyplot as plt
-import seaborn as sns
-import os
-from sklearn.pipeline import Pipeline
-
 from sklearn.metrics import root_mean_squared_error, r2_score
 
-def predict_eval(model, df, train_features, name):
-    y_true = df.trip_duration_log1p
+
+def predict_eval(model, df, train_features,target, name):
+    y_true = df[target]
     y_pred = model.predict(df[train_features])
 
     rmse = root_mean_squared_error(y_true, y_pred)
@@ -22,16 +16,16 @@ if __name__ == "__main__":
     import os, joblib
 
     path = r"D:\Trip-Duration-Prediction-\input\val.csv"
-    df, _ = prepare_data(path, target_column='trip_duration', remove_outlier=False)
-    print(df.head())
-    column_transformer,train_features =   column_transformation(df)
+    df, new_column = prepare_data(path, target_column='trip_duration',remove_outlier=False)
 
-    pipeline = Pipeline(steps=[
-        ('ohe', column_transformer),
-    ])
-    print(train_features)
-    pipeline.fit(df[train_features],df.trip_duration_log1p)
-    models_dir = r"D:\Trip-Duration-Prediction-\models"
+    y_train = df[new_column]
+
+    X_train = df.drop(columns=[new_column])
+    column_transformer,train_features =   column_transformation(X_train)
+
+    column_transformer.fit(X_train)
+
+    models_dir = r"D:\Trip-Duration-Prediction\models"
 
     results = []
 
@@ -40,9 +34,8 @@ if __name__ == "__main__":
             model_path = os.path.join(models_dir, model_file)
             model = joblib.load(model_path)
 
-            res = predict_eval(model, df,train_features, model_file)
+            res = predict_eval(model, df,train_features,new_column, model_file)
             results.append(res)
 
-    # اعرض النتائج كجدول
     results_df = pd.DataFrame(results)
     print(results_df)

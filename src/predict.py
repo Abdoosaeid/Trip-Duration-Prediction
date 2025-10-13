@@ -16,7 +16,7 @@ if __name__ == "__main__":
     import os, joblib
 
     path = r"D:\Trip-Duration-Prediction-\input\val.csv"
-    df, new_column = prepare_data(path, target_column='trip_duration',remove_outlier=False)
+    df, new_column = prepare_data(path, target_column='trip_duration',remove_outlier=True)
 
     y_train = df[new_column]
 

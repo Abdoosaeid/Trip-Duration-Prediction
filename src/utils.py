@@ -136,14 +136,15 @@ def prepare_data(data_path,target_column,remove_outlier=True):
 
     df = load_data(data_path)
     df = df.drop(["id"], axis=1)
-    df = remove_outliers(df)
+
+    if remove_outlier == True:
+        df = remove_outliers(df)
+
     df, _ = add_time_features(df)
     df = euclidean_distance_km(df)
     df, new_column = add_log_transformed_feature(df,target_column)
     df = add_manhattan_distance(df)
     df = add_direction(df)
-
-    print("Columns after log transform:", df.columns)
 
     return df, new_column
 

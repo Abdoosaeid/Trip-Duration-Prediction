@@ -9,52 +9,43 @@ Trip Duration Prediction
 ## Project Organization
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
+├── LICENSE             
+├── Makefile            
+├── README.md          
 ├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
+│   ├── external        
+│   ├── interim        
+│   ├── processed       
+│   └── raw             
 │
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
+├── models             
 │
-├── models             <- Trained and serialized models, model predictions, or model summaries
+├── notebooks           
+│   ├──exploration .ipynb                       
+│                         
 │
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
+├── pyproject.toml    
+│                         
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         src and configuration for tools like black
+├── reports            
+│   └── figures         
 │
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+├── requirements.txt    
+│                         
 │
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── src   <- Source code for use in this project.
+└── src   
     │
-    ├── __init__.py             <- Makes src a Python module
+    ├── utils.py
     │
-    ├── config.py               <- Store useful variables and configuration
+    ├── config.py                
     │
-    ├── dataset.py              <- Scripts to download or generate data
+    ├── features.py
     │
-    ├── features.py             <- Code to create features for modeling
+    ├── plots.py
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
+    ├── predict.py
     │
-    └── plots.py                <- Code to create visualizations
+    └── train.py
 ```
 
 --------

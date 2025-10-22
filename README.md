@@ -27,16 +27,13 @@ The dataset is provided by the **NYC Taxi and Limousine Commission (TLC)** and w
 ├── notebooks           
 │   ├──exploration .ipynb                       
 │                         
-│
 ├── pyproject.toml    
 │                         
-│
 ├── reports            
 │   └── figures         
 │
 ├── requirements.txt    
 │                         
-│
 └── src   
     │
     ├── utils.py

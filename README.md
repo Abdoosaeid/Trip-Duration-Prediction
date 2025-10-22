@@ -111,7 +111,7 @@ While more advanced models (like Random Forests, XGBoost, or Neural Networks) co
 
 The chart below compares **R² Scores** for all models across training and validation datasets.
 
-![R² Scores Comparison](reports/figures/r2_scores_comparison.png)
+![R² Scores Comparison]("reports\figures\r2_comparison.png")
 
 - **Polynomial Regression (degree 6)** achieved the highest R² score (~0.67), showing its ability to model complex relationships.  
 - Other linear and regularized models (Ridge, Lasso, ElasticNet) achieved R² ≈ 0.46, indicating similar performance.  

@@ -110,7 +110,7 @@ The selected models were intentionally chosen to explore how different types of 
 The chart below compares **R² Scores** for all models across training and validation datasets.
 
 <p align="center">
-  <img width="640" alt="R² Scores Comparison" src="reports/figures/r2_comparison.png">
+  <img width="800" alt="R² Scores Comparison" src="reports/figures/r2_comparison.png">
 </p>
 
 - **Polynomial Regression (degree 6)** achieved the highest R² score (~0.67), showing its ability to model complex relationships.  

@@ -109,7 +109,9 @@ The selected models were intentionally chosen to explore how different types of 
 
 The chart below compares **R² Scores** for all models across training and validation datasets.
 
-![R² Scores Comparison]("https://raw.githubusercontent.com/Abdoosaeid/Trip-Duration-Prediction/main/reports/figures/r2_comparison.png")
+<p align="center">
+  <img width="640" alt="R² Scores Comparison" src="reports/figures/r2_comparison.png">
+</p>
 
 - **Polynomial Regression (degree 6)** achieved the highest R² score (~0.67), showing its ability to model complex relationships.  
 - Other linear and regularized models (Ridge, Lasso, ElasticNet) achieved R² ≈ 0.46, indicating similar performance.  

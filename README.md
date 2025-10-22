@@ -93,8 +93,6 @@ The dataset is provided by the **NYC Taxi and Limousine Commission (TLC)** and w
 
 This project focuses on **learning, experimentation, and understanding regression models** rather than purely optimizing for the best score.  
 The selected models were intentionally chosen to explore how different types of linear and regularized regressions behave on the dataset.  
-While more advanced models (like Random Forests, XGBoost, or Neural Networks) could achieve higher accuracy, the main goal here was **educational clarity and reproducibility**.
-
 ### Tested Models
 
 | **Model** |  
@@ -111,7 +109,7 @@ While more advanced models (like Random Forests, XGBoost, or Neural Networks) co
 
 The chart below compares **R² Scores** for all models across training and validation datasets.
 
-![R² Scores Comparison]("reports\figures\r2_comparison.png")
+![R² Scores Comparison]("https://github.com/Abdoosaeid/Trip-Duration-Prediction/blob/main/reports/figures/r2_comparison.png")
 
 - **Polynomial Regression (degree 6)** achieved the highest R² score (~0.67), showing its ability to model complex relationships.  
 - Other linear and regularized models (Ridge, Lasso, ElasticNet) achieved R² ≈ 0.46, indicating similar performance.  
